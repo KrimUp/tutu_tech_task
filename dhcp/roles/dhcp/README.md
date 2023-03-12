@@ -54,7 +54,7 @@
 
 > ## Протестированно на:
 * CentOS 7
-* AlamaLinux 8
+* AlmaLinux 8
 * RockyLinux 9 
 
 #### Используемые матриалы
