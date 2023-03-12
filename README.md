@@ -196,6 +196,11 @@
 | `mac`                             | MAC адрес сетевого интерфейса                                          |
 | `fixip`                           | Filename to request for boot                                           |
 
+> ## Протестированно на:
+* CentOS 7
+* AlamaLinux 8
+* RockyLinux 9 
+
 #### Используемые матриалы
 * https://github.com/bertvv/ansible-role-dhcp
 * https://gitlab.com/paddyoneill/ansible-role-isc-dhcp-server/
