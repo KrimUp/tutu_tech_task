@@ -1,0 +1,69 @@
+# {{ ansible_managed }}
+# dhcpd.conf
+
+#DHCP global options
+
+{% if dhcp_server_domain_name | length %}
+option domain-name "{{ dhcp_server_domain_name }}";
+{% endif %}
+{% if dhcp_server_dns_servers | length %}
+option domain-name-servers {{ dhcp_server_dns_servers | join(', ') }};
+{% endif %}
+{% if dhcp_server_default_lease_time | int %}
+default-lease-time {{ dhcp_server_default_lease_time }};
+{% endif %}
+{% if dhcp_server_max_lease_time | int %}
+max-lease-time {{ dhcp_server_max_lease_time }};
+{% endif %}
+{% if dhcp_server_authoritative is true %}
+authoritative;
+{% endif %}
+{% if dhcp_server_log_facility | string %}
+log-facility {{ dhcp_server_log_facility }};
+{% endif %}
+
+#DHCP subnets options
+
+{% for subnet in dhcp_server_subnets %}
+subnet {{ subnet.ip }} netmask {{ subnet.netmask }} {
+{% if subnet.netmask is defined %}
+option subnet-mask {{ subnet.netmask }};
+{% endif %}
+{% if subnet.routers is defined %}
+option routers {{ subnet.routers }};
+{% endif %}
+{% if subnet.range_start is defined and subnet.range_end is defined %}
+range {{ subnet.range_start }} {{ subnet.range_end }};
+{% endif %}
+{% if subnet.domain_name is defined %}
+option domain-name "{{ subnet.domain_name }}";
+{% endif %}
+{% if subnet.dns_servers is defined %}
+option domain-name-servers {{ subnet.dns_servers | join(', ') }};
+{% endif %}
+{% if subnet.broadcast_address is defined %}
+option broadcast-address {{ subnet.broadcast_address }};
+{% endif %}
+{% if subnet.default_lease_time is defined %}
+default-lease-time {{ subnet.default_lease_time }};
+{% endif %}
+{% if subnet.max_lease_time is defined %}
+max-lease-time {{ subnet.max_lease_time }};
+{% endif %}
+}
+{% endfor %}
+
+{% if dhcp_server_interfaces is defined %}
+#DHCP interfaces options
+
+{% for interface in dhcp_server_interfaces %}
+host {{ interface.name }} {
+{% if interface.mac is defined %}
+hardware ethernet {{ interface.mac }};
+{% endif %}
+{% if interface.fixip is defined %}
+fixed-address {{ interface.fixip }};
+{% endif %}
+}
+{% endfor %}
+{% endif %}

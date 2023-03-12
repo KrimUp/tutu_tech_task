@@ -1,0 +1,6 @@
+---
+# Устанавливаем какет dhcp или dhcp-server в зависимости от версии ОС 
+- name: Install DHCP server package
+  yum:
+    name: "{{ dhcp_package_name }}"
+    state: present

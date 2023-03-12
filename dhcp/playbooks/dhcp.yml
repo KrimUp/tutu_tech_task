@@ -1,0 +1,7 @@
+---
+- name: Set DHCP server
+  hosts: dhcp_servers
+  become: true
+
+  roles:
+    - dhcp

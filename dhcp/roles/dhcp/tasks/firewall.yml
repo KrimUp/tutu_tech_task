@@ -1,0 +1,31 @@
+---
+# Собираем факты о демонах запущенных на хостах
+- name: Gathering services facts
+  service_facts:
+
+# Открываем 67 порт для протокола udp если сервис firewalld есть и добавлен в атозагрузку
+# Перезагружаем сервис если вносили изменения
+- name: Open DHCP port if service firewalld is enabled
+  firewalld:
+    port: 67/udp
+    permanent: true
+    immediate: true
+    state: enabled
+  when:
+  - ansible_facts.services['firewalld.service'] is defined
+  - ansible_facts.services['firewalld.service'].status == 'enabled'
+  notify: Reload firewalld
+
+# Открываем 67 порт для протокола udp если сервис iptables есть и добавлен в атозагрузку 
+# Сохраняем правило если вносили изменение
+- name: Open DHCP port if service iptables is enabled   
+  iptables:
+    chain: INPUT
+    protocol: udp
+    destination_port: "67"
+    jump: ACCEPT
+    comment: DHCP
+  when: 
+  - ansible_facts.services['iptables.service'] is defined
+  - ansible_facts.services['iptables.service'].status == 'enabled'
+  notify: Save iptables state

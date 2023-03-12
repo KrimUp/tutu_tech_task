@@ -1,0 +1,7 @@
+---
+- import_tasks: install.yml
+  tags: ["install"]
+- import_tasks: firewall.yml
+  tags: ["firewall"]
+- import_tasks: configuration.yml
+  tags: ["cfg"]

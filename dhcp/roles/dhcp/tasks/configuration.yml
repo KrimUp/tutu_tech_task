@@ -1,0 +1,27 @@
+---
+# Проверяем есть ли директория демона dhcp
+- name: Check DHCP configuration directory exists
+  file:
+    name: /etc/dhcp
+    owner: root
+    group: root
+    mode: 0750
+    state: directory
+
+# Устанавливаем конфиг перенося его из темплейта и проверяем его на ошибки встроенным в dhcp интсрументом 
+- name: Install DHCP configuration
+  template:
+    src: dhcpd.conf.j2
+    dest: /etc/dhcp/dhcpd.conf
+    owner: root
+    group: root
+    mode: 0644
+    validate: "dhcpd -t -cf %s"
+  notify: Restart DHCP
+
+# Запускаем сервис и добавляем его в автозагрузку
+- name: Start and enable dhcpd service
+  service:
+    name: dhcpd
+    state: started
+    enabled: true

@@ -1,0 +1,15 @@
+---
+- name: Restart DHCP
+  service:
+    name: dhcpd
+    state: restarted
+
+- name: Reload firewalld
+  service:
+    name: firewalld
+    state: reloaded
+
+- name: Save iptables state
+  community.general.iptables_state:
+    state: saved
+    path: /etc/sysconfig/iptables
