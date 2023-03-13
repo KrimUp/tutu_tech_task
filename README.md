@@ -2,9 +2,9 @@
 ## Восстановление забытого пароля от IPMI различных вендоров
 > ## Dell iDRAC
 1. Перейдем на сайт поддрежки Dell https://www.dell.com/support
-2. В поиске введем модель сервера, от которого забыли пароль и выберем тип ОС установленной локально (bare metal) на сервере
+2. В поиске введем модель сервера, от которого забыли пароль и выбераем тип ОС установленной локально (bare metal) на сервере
 3. Нам нужен пакет Dell EMC iDRAC Tools for OS_NAME. В этом пакете нас интересует утилита **racadm**
-    * Так же можно найти утилиту **racadm** просто введя запрос Dell iDRAC Tools for OS_NAME в поиске на сайте поддрежки
+    * Также можно найти утилиту **racadm** просто введя запрос Dell iDRAC Tools for OS_NAME в поиске на сайте поддрежки
 4. Разберем установку утилиты **racadm** на базе Rocky Linux 9
 
 * **Все команды выполняются от имени root**
@@ -18,7 +18,7 @@
         ```bash
             cd iDRACTools/racadm/
         ```
-     * В директории мы можем запустить скрипт установки или вручную установить три RPM пакета из дериктории OS_NAME/x86_64/
+     * В директории мы можем запустить скрипт установки или вручную установить три RPM пакета из директории OS_NAME/x86_64/
         ```bash
             # В моем случае это директория RHEL9/x86_64
             rpm -i RHEL9/x86_64/srvadmin-*
@@ -49,7 +49,7 @@
     ```bash
         racadm set iDRAC.Users.2.Password Новый_пароль_рута
     ```
-#### Используемые матриалы
+#### Используемые материалы
 * https://www.dell.com/support/home/en-lt/drivers/driversdetails?driverid=dfhk6
 * https://www.dell.com/support/manuals/en-lt/idrac9-lifecycle-controller-v3.0-series/idrac_3.00.00.00_ug/changing-the-default-login-password-using-racadm?guid=guid-ff412eb0-fd83-432c-92f8-79472c5a2077&lang=en-us
 * https://www.dell.com/community/PowerEdge-Hardware-General/Unluckly-I-forgot-my-dell-server-R720-IDRAC-password-now-I-can-t/td-p/4458788
@@ -59,7 +59,7 @@
 > ## HPE ILO
 1. В случае HP для сброса пароля используется утилита **hponcfg** установленная в ОС развернутой локально (bare metal) на сервере 
 2. Перейдем на сайт подержи HP https://support.hpe.com/ и наберем поиске ***HPE Lights-Out Online Configuration Utility for Windows/Linux***
-    * Для ESXi необохдимо скачать бандл ***HPE ESXi Utilities Offline Bundle for VMware HYPERVISOR_VERSION***, в котором находиться утилита **hponcfg**
+    * Для ESXi необходимо скачать бандл ***HPE ESXi Utilities Offline Bundle for VMware HYPERVISOR_VERSION***, в котором находиться утилита **hponcfg**
 3. Разберем процесс установки утилиты **hponcfg** на примере Rocky Linux 9
 
 * **Все команды выполняются от имени root**
@@ -76,7 +76,7 @@
         ```bash
             hponcfg --version
         ```
-4. Теперь согласно [инструкции](https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-c03487111) необходимо создать файл xml с нужными параметрами *mod_user user_login* и *password value*
+4. Теперь согласно [инструкции](https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-c03487111), необходимо создать файл xml с нужными параметрами *mod_user user_login* и *password value*
     ```bash
         vi passwd_reset_ilo.xml
     ```
@@ -96,7 +96,7 @@
     ```bash
         hponcfg -f passwd_reset_ilo.xml -l log.txt
     ```
-#### Используемые матриалы
+#### Используемые материалы
 * https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-c03487111
 * https://support.hpe.com/connect/s/softwaredetails?language=en_US&softwareId=MTX_094cdfb6840f48389ba985bf92&tab=Installation+Instructions
 * https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-a00007610en_us
@@ -120,11 +120,11 @@
       ```
     * Для удобства использования добавим файл IPMICFG_1.34.1_build.221026/Linux/64bit/IPMICFG-Linux.x86_64 в перменную PATH
       ```bash
-          # Создадим директория с подходяшим именем в /opt
+          # Создадим директорию с подходяшим именем в /opt
           mkdir /opt/supermicro/ipmicfg
           # Скопируем в новую директорию нужный нам файл с именем ipmicfg
           cp IPMICFG_1.34.1_build.221026/Linux/64bit/IPMICFG-Linux.x86_64 /opt/supermicro/ipmicfg
-          # Экспортируем директорию в $PATH для текущего пользователя отредактировав .bashrc
+          # Экспортируем директорию в $PATH для текущего пользователя, отредактировав .bashrc
           vi .bashrc
           # Заменим строку export PATH на export PATH=$PATH:/opt/supermicro/ipmicfg
       ```
@@ -136,7 +136,7 @@
     ```bash
         ipmicfg –user setpwd User_ID newpassword
     ```
-#### Используемые матриалы
+#### Используемые материалы
 * https://www.supermicro.com/wdl/utility/IPMICFG/IPMICFG_UserGuide.pdf
 * https://www.servethehome.com/reset-supermicro-ipmi-password-default-lost-login/
 * https://winitpro.ru/index.php/2019/08/30/ipmi-nastrojka-i-udalennoe-upravlenie-serverom/
@@ -151,11 +151,11 @@
   * Проверять конфиг DHCP сервера перед тем как добавить его на сервер
 * Что не умеет эта роль?
   * Устанавливать пакет DHCP сервера на Debian like ОС
-  * Проверять сетевые интерфесы на наличие соответсвия подсетей указанных в конфиге DHCP сервера
-  * Определять был ли до этого настроен DHCP сервер и дополнять уже существующий конфиг
-  * Определять есть ли в firewall запрещающие правила перед тем как добавлять разрешающие
-#### Из всего вышеперечисленного стоит сделать вывод что данную роль стоит применять с осторожностью и перед использованием очень желательно прокатить ее с --diff --check.
-#### Так же стоит учитывать что DHCP сервер будет слушать только на том сетево интерфейсе где адрес соответствует объявленной подсети в файле конфигурации DHCP сервера.
+  * Проверять сетевые интерфейсы на наличие соответсвия подсетей указанных в конфиге DHCP сервера
+  * Определять, был ли до этого настроен DHCP сервер и дополнять уже существующий конфиг
+  * Определять, есть ли в firewall запрещающие правила перед тем как добавлять разрешающие
+#### Из всего перечисленного выше, можно сделать вывод что данную роль стоит применять с осторожностью. В первый раз лучше запустить с --diff --check и убедиться что ничего не сломается.
+#### Также стоит учитывать что DHCP сервер будет слушать только на том сетевом интерфейсе где адрес соответствует объявленной подсети в файле конфигурации DHCP сервера. Если соответсвия адресов нет, то демон dhcpd упадет в ошибку.
 #### Например так:
   ```bash
     ansible-playbook playbooks/dhcp.yml --diff --check
@@ -164,7 +164,7 @@
   * community.general для модуля iptables_state
 > ## Доступные переменные
 #### *Глобальные переменные*
-| Переменная                        | Коментарий                                                             |
+| Переменная                        | Комментарий                                                            |
 | :-------------------------------- | :--------------------------------------------------------------------- |
 | `dhcp_server_domain_name`         | Доменное имя сервер                                                    |
 | `dhcp_server_dns_servers`         | DNS сервера                                                            |
@@ -174,12 +174,12 @@
 | `dhcp_server_log_facility`        | Глубина логирования                                                    |
 
 #### *Переменные подсети*
-| Переменная                        | Коментарий                                                             |
+| Переменная                        | Комментарий                                                            |
 | :-------------------------------- | :--------------------------------------------------------------------- |
 | `ip`                              | IP адреса сети. (прим `10.1.1.0`)                                      |
 | `netmask`                         | Маска подсети (прим `255.255.255.0`)                                   |
-| `range_start`                     | Начало пула выдаваем адресов (прим `10.1.1.2`)                         |
-| `range_end`                       | Конец пула выдаваем адресов  (прим `10.1.1.250`)                       |
+| `range_start`                     | Начало пула выдаваемых адресов (прим `10.1.1.2`)                       |
+| `range_end`                       | Конец пула выдаваемых адресов  (прим `10.1.1.250`)                     |
 | `domain_name`                     | Имя домена подсети                                                     |
 | `dns_servers`                     | Адреса DNS серверов подсети                                            |
 | `routers`                         | Адрес маршрутизатора подсети                                           |
@@ -187,10 +187,10 @@
 | `default_lease_time`              | Время аренды адреса по умолчанию                                       |
 | `max_lease_time`                  | Максимальное время аренды адреса подсети                               |
 
-### Так же есть возможность настроить интерфесы сервера для Multihomed DHCP
-   Большие сомнения в актуальности этой функции :)
+### Также есть возможность настроить интерфейсы сервера для Multihomed DHCP
+
 #### *Переменные интерфейсов*
-| Переменная                        | Коментарий                                                             |
+| Переменная                        | Комментарий                                                            |
 | :-------------------------------- | :--------------------------------------------------------------------- |
 | `name`                            | Уникальное имя                                                         |
 | `mac`                             | MAC адрес сетевого интерфейса                                          |
@@ -201,7 +201,7 @@
 * AlmaLinux 8
 * RockyLinux 9 
 
-#### Используемые матриалы
+#### Используемые материалы
 * https://github.com/bertvv/ansible-role-dhcp
 * https://gitlab.com/paddyoneill/ansible-role-isc-dhcp-server/
 * https://jinja.palletsprojects.com/en/3.1.x/templates/#if-expression
