@@ -1,6 +1,6 @@
 ---
 # Глобальные настройки DHCP
-dhcp_server_domain_name: examle.org
+dhcp_server_domain_name: dhcp.example.org #"{{ inventory_hostname }}.example.org"
 dhcp_server_dns_servers: [ns1.example.org, ns2.example.org]
 dhcp_server_default_lease_time: 600
 dhcp_server_max_lease_time: 7200
@@ -16,7 +16,7 @@ dhcp_server_subnets:
     broadcast_address: 10.1.1.255
     routers: 10.1.1.1
 
-# Все доступные опцие настройки подсети
+# Все доступные опции настройки подсети
 # - ip:
 #   netmask:
 #   range_start:
@@ -28,7 +28,7 @@ dhcp_server_subnets:
 #   default_lease_time:
 #   max_lease_time:
 
-# Настройки сетевых интерефесов DHCP сервер
+# Настройки сетевых интерефесов DHCP сервера для Multihomed DHCP
 # Может быть полезно когда сервера обслуживает несколько подсетей на разных интерфейсах
 # В примере ниже параметры настройки интерфейса получают изначения из модуля setup
 # dhcp_server_interfaces:
